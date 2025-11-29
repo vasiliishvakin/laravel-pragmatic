@@ -1,10 +1,9 @@
 # Laravel Pragmatic Toolkit
 
 [![Tests](https://github.com/vasiliishvakin/laravel-pragmatic/actions/workflows/tests.yml/badge.svg)](https://github.com/vasiliishvakin/laravel-pragmatic/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/vasiliishvakin/laravel-pragmatic/branch/main/graph/badge.svg)](https://codecov.io/gh/vasiliishvakin/laravel-pragmatic)
 [![Code Style](https://github.com/vasiliishvakin/laravel-pragmatic/actions/workflows/code-style.yml/badge.svg)](https://github.com/vasiliishvakin/laravel-pragmatic/actions/workflows/code-style.yml)
-[![Latest Stable Version](https://poser.pugx.org/vasiliishvakin/laravel-pragmatic/v/stable)](https://packagist.org/packages/vasiliishvakin/laravel-pragmatic)
-[![Total Downloads](https://poser.pugx.org/vasiliishvakin/laravel-pragmatic/downloads)](https://packagist.org/packages/vasiliishvakin/laravel-pragmatic)
-[![License](https://poser.pugx.org/vasiliishvakin/laravel-pragmatic/license)](https://packagist.org/packages/vasiliishvakin/laravel-pragmatic)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Laravel Pragmatic Toolkit - A **lightweight CQRS** implementation for Laravel, providing source-agnostic operations, State Machines, and additional utilities.
 

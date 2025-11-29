@@ -15,6 +15,13 @@ coverage:
         target: 80%
         threshold: 5%
 
+ignore:
+  - "tests/**/*"
+  - "vendor/**/*"
+  - "playground/**/*"
+  - "config/**/*"
+  - "**/ServiceProvider.php"
+
 comment:
   layout: "reach,diff,flags,files,footer"
   behavior: default
