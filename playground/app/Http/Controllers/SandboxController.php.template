@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Controllers;
+
+class SandboxController extends Controller
+{
+    /**
+     * Display the sandbox page for experiments.
+     *
+     * This controller is meant for temporary experiments and testing.
+     * Changes to this file are ignored by git.
+     */
+    public function index()
+    {
+        // Your experimental code here
+
+        return view('sandbox');
+    }
+}

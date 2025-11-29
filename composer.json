@@ -23,18 +23,21 @@
     },
     "autoload": {
         "psr-4": {
-            "Shvakin\\Pragmatic\\": "src/"
-        }
+            "Pragmatic\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Shvakin\\Pragmatic\\Tests\\": "tests/"
+            "Pragmatic\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Shvakin\\Pragmatic\\PragmaticServiceProvider"
+                "Pragmatic\\Providers\\PragmaticServiceProvider"
             ]
         }
     },
@@ -42,7 +45,10 @@
         "test": "vendor/bin/pest",
         "test:coverage": "vendor/bin/pest --coverage",
         "lint": "vendor/bin/pint",
-        "lint:test": "vendor/bin/pint --test"
+        "lint:test": "vendor/bin/pint --test",
+        "playground:setup": "composer setup --working-dir=playground",
+        "playground:dev": "composer dev --working-dir=playground",
+        "playground:dev:backend": "composer dev:backend --working-dir=playground"
     },
     "config": {
         "sort-packages": true,

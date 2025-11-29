@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox - Laravel Pragmatic Toolkit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: #252526;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #858585;
+            font-size: 0.9rem;
+        }
+
+        .content {
+            background: #252526;
+            padding: 30px;
+            border-radius: 8px;
+            min-height: 400px;
+        }
+
+        .placeholder {
+            color: #858585;
+            font-style: italic;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .back-link:hover {
+            background: #5a67d8;
+        }
+
+        pre {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid #3e3e42;
+        }
+
+        code {
+            color: #ce9178;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sandbox Environment</h1>
+            <p class="subtitle">Experimental code playground - changes are not committed to git</p>
+        </header>
+
+        <div class="content">
+            <div class="placeholder">
+                {{-- Your experimental output here --}}
+                <p>This is your sandbox for experiments.</p>
+                <p>Edit SandboxController and this view to test your code.</p>
+            </div>
+        </div>
+
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+</body>
+</html>

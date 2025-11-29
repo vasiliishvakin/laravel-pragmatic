@@ -1,9 +1,9 @@
 <?php
 
-namespace Shvakin\Pragmatic\Tests;
+namespace Pragmatic\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use Shvakin\Pragmatic\PragmaticServiceProvider;
+use Pragmatic\Providers\PragmaticServiceProvider;
 
 class TestCase extends Orchestra
 {
