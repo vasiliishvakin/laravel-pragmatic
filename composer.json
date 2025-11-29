@@ -1,0 +1,55 @@
+{
+    "name": "vasiliishvakin/laravel-pragmatic",
+    "description": "Laravel Pragmatic Toolkit - Lightweight CQRS, State Machines, and utilities for Laravel",
+    "type": "library",
+    "keywords": ["laravel", "cqrs", "state-machine", "pragmatic", "toolkit"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Vasilii Shvakin",
+            "email": "vasilii.shvakin@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^12.0",
+        "illuminate/contracts": "^12.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^10.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shvakin\\Pragmatic\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Shvakin\\Pragmatic\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Shvakin\\Pragmatic\\PragmaticServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test:coverage": "vendor/bin/pest --coverage",
+        "lint": "vendor/bin/pint",
+        "lint:test": "vendor/bin/pint --test"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,0 +1,40 @@
+# Package
+/vendor/
+composer.lock
+.phpunit.cache
+.phpunit.result.cache
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Playground
+playground/vendor/
+playground/.env
+playground/node_modules/
+playground/public/hot
+playground/public/storage
+playground/storage/*.key
+playground/storage/app/*
+!playground/storage/app/.gitignore
+playground/storage/framework/cache/*
+!playground/storage/framework/cache/.gitignore
+playground/storage/framework/sessions/*
+!playground/storage/framework/sessions/.gitignore
+playground/storage/framework/testing/*
+!playground/storage/framework/testing/.gitignore
+playground/storage/framework/views/*
+!playground/storage/framework/views/.gitignore
+playground/storage/logs/*
+!playground/storage/logs/.gitignore
+playground/bootstrap/cache/*
+!playground/bootstrap/cache/.gitignore
+playground/.phpunit.result.cache
+playground/database/database.sqlite
