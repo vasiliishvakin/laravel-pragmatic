@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Pragmatic\Cqrs;
 
-use Pragmatic\Cqrs\Concerns\Bootable;
-use Pragmatic\Cqrs\Concerns\HasMiddleware;
-
 /**
  * Base class for all commands in the CQRS pattern.
  *
@@ -47,18 +44,7 @@ use Pragmatic\Cqrs\Concerns\HasMiddleware;
  * );
  * ```
  */
-abstract class Command
+abstract class Command extends Operation
 {
-    use Bootable;
-    use HasMiddleware;
-
-    /**
-     * Factory method for fluent API construction.
-     *
-     * @param  mixed  ...$params  Constructor parameters
-     */
-    public static function make(mixed ...$params): static
-    {
-        return new static(...$params);
-    }
+    //
 }

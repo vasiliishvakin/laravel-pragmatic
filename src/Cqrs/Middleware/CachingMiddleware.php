@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Pragmatic\Cqrs\Command;
 use Pragmatic\Cqrs\Contracts\Middleware;
+use Pragmatic\Cqrs\Operation;
 use Pragmatic\Cqrs\Query;
 
 /**
@@ -68,7 +69,7 @@ final class CachingMiddleware implements Middleware
     /**
      * Handle the operation execution with caching.
      */
-    public function handle(Query|Command $operation, Closure $next): mixed
+    public function handle(Operation $operation, Closure $next): mixed
     {
         // Only cache queries, not commands
         if ($operation instanceof Command) {

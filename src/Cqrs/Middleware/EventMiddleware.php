@@ -14,6 +14,7 @@ use Pragmatic\Cqrs\Events\CommandFailed;
 use Pragmatic\Cqrs\Events\QueryExecuted;
 use Pragmatic\Cqrs\Events\QueryExecuting;
 use Pragmatic\Cqrs\Events\QueryFailed;
+use Pragmatic\Cqrs\Operation;
 use Pragmatic\Cqrs\Query;
 
 /**
@@ -49,7 +50,7 @@ final class EventMiddleware implements Middleware
         private readonly Dispatcher $events,
     ) {}
 
-    public function handle(Query|Command $operation, Closure $next): mixed
+    public function handle(Operation $operation, Closure $next): mixed
     {
         $startTime = microtime(true);
 
@@ -73,7 +74,7 @@ final class EventMiddleware implements Middleware
         }
     }
 
-    private function dispatchExecutingEvent(Query|Command $operation): void
+    private function dispatchExecutingEvent(Operation $operation): void
     {
         if ($operation instanceof Query) {
             $this->events->dispatch(new QueryExecuting($operation));
@@ -82,7 +83,7 @@ final class EventMiddleware implements Middleware
         }
     }
 
-    private function dispatchExecutedEvent(Query|Command $operation, mixed $result, float $executionTime): void
+    private function dispatchExecutedEvent(Operation $operation, mixed $result, float $executionTime): void
     {
         if ($operation instanceof Query) {
             $this->events->dispatch(new QueryExecuted($operation, $result, $executionTime));
@@ -91,7 +92,7 @@ final class EventMiddleware implements Middleware
         }
     }
 
-    private function dispatchFailedEvent(Query|Command $operation, \Throwable $exception, float $executionTime): void
+    private function dispatchFailedEvent(Operation $operation, \Throwable $exception, float $executionTime): void
     {
         if ($operation instanceof Query) {
             $this->events->dispatch(new QueryFailed($operation, $exception, $executionTime));

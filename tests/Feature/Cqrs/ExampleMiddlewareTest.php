@@ -51,7 +51,7 @@ test('LoggingMiddleware logs errors on exception', function () {
 
     $command = new class extends Command
     {
-        public function execute(): void
+        public function execute(): mixed
         {
             throw new RuntimeException('Test error');
         }
@@ -121,9 +121,10 @@ test('ValidationMiddleware short-circuits on validation failure', function () {
             ]);
         }
 
-        public function execute(): void
+        public function execute(): mixed
         {
             $this->executed = true;
+            return null;
         }
     };
 

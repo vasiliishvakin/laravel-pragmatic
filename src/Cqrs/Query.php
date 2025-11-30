@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Pragmatic\Cqrs;
 
-use Pragmatic\Cqrs\Concerns\Bootable;
-use Pragmatic\Cqrs\Concerns\HasMiddleware;
-
 /**
  * Base class for all queries in the CQRS pattern.
  *
@@ -43,26 +40,7 @@ use Pragmatic\Cqrs\Concerns\HasMiddleware;
  * );
  * ```
  */
-abstract class Query
+abstract class Query extends Operation
 {
-    use Bootable;
-    use HasMiddleware;
-
-    /**
-     * Execute the query and return result.
-     *
-     * Must be implemented in child classes.
-     * Dependencies are automatically injected via type-hints.
-     */
-    abstract public function execute(): mixed;
-
-    /**
-     * Factory method for fluent API construction.
-     *
-     * @param  mixed  ...$params  Constructor parameters
-     */
-    public static function make(mixed ...$params): static
-    {
-        return new static(...$params);
-    }
+    //
 }

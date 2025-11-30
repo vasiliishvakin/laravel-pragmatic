@@ -35,11 +35,11 @@ final class QueryBus extends AbstractBus
      * 3. Call boot() method if not already booted
      * 4. Call execute() method with automatic parameter resolution
      *
-     * @param  Query  $query  Query instance to execute
+     * @param  Query  $operation  Query instance to execute
      * @return mixed Query result (may be transformed by middleware)
      */
-    public function execute(Query $query): mixed
+    public function execute(Query $operation): mixed
     {
-        return $this->executeOperation($query, 'pragmatic.cqrs.query_middleware');
+        return $this->executeOperation($operation, 'pragmatic.cqrs.query_middleware');
     }
 }

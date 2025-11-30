@@ -37,11 +37,11 @@ final class CommandBus extends AbstractBus
      * 3. Call boot() method if not already booted
      * 4. Call execute() method with automatic parameter resolution
      *
-     * @param  Command  $command  Command instance to execute
+     * @param  Command  $operation  Command instance to execute
      * @return mixed Command result (optional, may be transformed by middleware)
      */
-    public function execute(Command $command): mixed
+    public function execute(Command $operation): mixed
     {
-        return $this->executeOperation($command, 'pragmatic.cqrs.command_middleware');
+        return $this->executeOperation($operation, 'pragmatic.cqrs.command_middleware');
     }
 }

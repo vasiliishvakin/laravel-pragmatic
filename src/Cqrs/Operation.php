@@ -2,27 +2,103 @@
 
 declare(strict_types=1);
 
-namespace Pragmatic\Cqrs\Concerns;
+namespace Pragmatic\Cqrs;
 
 /**
- * Trait for managing middleware in CQRS operations.
+ * Base class for all CQRS operations.
  *
- * Provides functionality for:
- * - Per-class middleware registration
- * - Runtime middleware addition (fluent API)
- * - Middleware exclusion (class-level and runtime)
+ * Provides common functionality for Query, Command, and Action:
+ * - Two-phase initialization (constructor + boot)
+ * - Middleware management (global, per-class, runtime)
+ * - Factory method for fluent API
+ *
+ * All operations must implement execute() method which performs
+ * the core operation logic.
+ *
+ * Two-phase initialization:
+ * 1. Constructor - receives data parameters
+ * 2. boot() - optional dependency injection phase (called automatically by Bus)
+ *
+ * Middleware execution order:
+ * 1. Global middleware (from config)
+ * 2. Per-class middleware (from middleware() method)
+ * 3. Runtime middleware (from withMiddleware() method)
  */
-trait HasMiddleware
+abstract class Operation
 {
     /**
+     * Indicates if the boot method has been called.
+     */
+    private bool $isBooted = false;
+
+    /**
      * Runtime middleware to be applied to this specific operation instance.
+     *
+     * @var array<int, class-string|object>
      */
     private array $runtimeMiddleware = [];
 
     /**
      * Middleware classes to exclude from execution.
+     *
+     * @var array<int, class-string>
      */
     private array $excludedMiddleware = [];
+
+    /**
+     * Execute the operation and return result.
+     *
+     * Must be implemented in child classes.
+     * Dependencies are automatically injected via type-hints.
+     */
+    abstract public function execute(): mixed;
+
+    /**
+     * Factory method for fluent API construction.
+     *
+     * @param  mixed  ...$params  Constructor parameters
+     */
+    public static function make(mixed ...$params): static
+    {
+        return new static(...$params);
+    }
+
+    // =========================================================================
+    // Boot lifecycle
+    // =========================================================================
+
+    /**
+     * Optional boot method for dependency injection.
+     *
+     * Called automatically by Bus before execute().
+     * Override this method to inject dependencies that cannot be passed via constructor.
+     */
+    public function boot(): void
+    {
+        // Optional: override in child classes
+    }
+
+    /**
+     * Mark the operation as booted.
+     *
+     * @internal Called by Bus
+     */
+    public function markAsBooted(): void
+    {
+        $this->isBooted = true;
+    }
+
+    /**
+     * Check if the boot method has been called.
+     */
+    public function isBooted(): bool
+    {
+        return $this->isBooted;
+    }
+
+    // =========================================================================
+    // Middleware management
+    // =========================================================================
 
     /**
      * Get per-class middleware for this operation.

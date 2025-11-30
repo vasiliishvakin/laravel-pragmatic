@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Pragmatic\Cqrs\Command;
 use Pragmatic\Cqrs\CommandBus;
 use Pragmatic\Cqrs\Contracts\Middleware;
+use Pragmatic\Cqrs\Operation;
 use Pragmatic\Cqrs\Query;
 use Pragmatic\Cqrs\QueryBus;
 
@@ -20,7 +21,7 @@ test('withoutMiddleware excludes specific middleware from runtime execution', fu
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -32,7 +33,7 @@ test('withoutMiddleware excludes specific middleware from runtime execution', fu
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -63,7 +64,7 @@ test('excludeMiddleware method excludes middleware at class level', function () 
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -75,7 +76,7 @@ test('excludeMiddleware method excludes middleware at class level', function () 
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -118,7 +119,7 @@ test('withoutMiddleware can exclude global middleware', function () {
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -150,7 +151,7 @@ test('withoutMiddleware can exclude per-class middleware', function () {
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -187,7 +188,7 @@ test('excludeMiddleware and withoutMiddleware work together', function () {
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -199,7 +200,7 @@ test('excludeMiddleware and withoutMiddleware work together', function () {
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -211,7 +212,7 @@ test('excludeMiddleware and withoutMiddleware work together', function () {
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -258,7 +259,7 @@ test('withoutMiddleware works with command bus', function () {
     {
         public function __construct(private array &$executed) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = 'executed';
 
@@ -289,7 +290,7 @@ test('withoutMiddleware accepts single middleware class as string', function () 
     {
         public function __construct(private array &$executed) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = 'executed';
 
@@ -320,7 +321,7 @@ test('withoutMiddleware can be chained multiple times', function () {
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -332,7 +333,7 @@ test('withoutMiddleware can be chained multiple times', function () {
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 
@@ -344,7 +345,7 @@ test('withoutMiddleware can be chained multiple times', function () {
     {
         public function __construct(private array &$executed, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = $this->id;
 

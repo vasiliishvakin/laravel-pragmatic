@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Pragmatic\Cqrs\Contracts;
 
 use Closure;
-use Pragmatic\Cqrs\Command;
-use Pragmatic\Cqrs\Query;
+use Pragmatic\Cqrs\Operation;
 
 /**
  * Middleware contract for CQRS operations.
  *
- * Middleware can intercept Query/Command execution to:
+ * Middleware can intercept Operation execution to:
  * - Perform actions before execution (validation, logging, etc.)
  * - Perform actions after execution (caching, logging, etc.)
  * - Transform the result
@@ -26,7 +25,7 @@ use Pragmatic\Cqrs\Query;
  *         private LoggerInterface $logger
  *     ) {}
  *
- *     public function handle(Query|Command $operation, Closure $next): mixed
+ *     public function handle(Operation $operation, Closure $next): mixed
  *     {
  *         $this->logger->info('Executing: ' . get_class($operation));
  *
@@ -44,9 +43,9 @@ interface Middleware
     /**
      * Handle the operation execution.
      *
-     * @param  Query|Command  $operation  The operation being executed
+     * @param  Operation  $operation  The operation being executed
      * @param  Closure  $next  The next middleware in the pipeline
      * @return mixed The result of the operation (can be transformed)
      */
-    public function handle(Query|Command $operation, Closure $next): mixed;
+    public function handle(Operation $operation, Closure $next): mixed;
 }

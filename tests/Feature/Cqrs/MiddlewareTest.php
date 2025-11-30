@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Pragmatic\Cqrs\Command;
 use Pragmatic\Cqrs\CommandBus;
 use Pragmatic\Cqrs\Contracts\Middleware;
+use Pragmatic\Cqrs\Operation;
 use Pragmatic\Cqrs\Query;
 use Pragmatic\Cqrs\QueryBus;
 
@@ -49,7 +50,7 @@ test('query executes with runtime middleware', function () {
     {
         public function __construct(private array &$executed) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->executed[] = 'before';
             $result = $next($operation);
@@ -82,7 +83,7 @@ test('middleware executes in correct order: global -> class -> runtime', functio
     {
         public function __construct(private array &$order, private string $name) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->order[] = $this->name.':before';
             $result = $next($operation);
@@ -96,7 +97,7 @@ test('middleware executes in correct order: global -> class -> runtime', functio
     {
         public function __construct(private array &$order, private string $name) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->order[] = $this->name.':before';
             $result = $next($operation);
@@ -110,7 +111,7 @@ test('middleware executes in correct order: global -> class -> runtime', functio
     {
         public function __construct(private array &$order, private string $name) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->order[] = $this->name.':before';
             $result = $next($operation);
@@ -154,7 +155,7 @@ test('middleware executes in correct order: global -> class -> runtime', functio
 test('middleware can transform result', function () {
     $middleware = new class implements Middleware
     {
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $result = $next($operation);
 
@@ -182,7 +183,7 @@ test('middleware can short-circuit execution', function () {
 
     $middleware = new class implements Middleware
     {
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             // Short-circuit: return without calling $next
             return 'short-circuited';
@@ -214,7 +215,7 @@ test('exception in middleware stops pipeline', function () {
 
     $middleware1 = new class implements Middleware
     {
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             throw new RuntimeException('Middleware error');
         }
@@ -224,7 +225,7 @@ test('exception in middleware stops pipeline', function () {
     {
         public function __construct(private bool &$afterExecuted) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->afterExecuted = true;
 
@@ -253,7 +254,7 @@ test('command middleware works same as query middleware', function () {
     {
         public function __construct(private array &$order) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->order[] = 'before';
             $result = $next($operation);
@@ -286,7 +287,7 @@ test('multiple runtime middleware can be chained with withMiddleware', function 
     {
         public function __construct(private array &$order, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->order[] = $this->id;
 
@@ -298,7 +299,7 @@ test('multiple runtime middleware can be chained with withMiddleware', function 
     {
         public function __construct(private array &$order, private string $id) {}
 
-        public function handle(Query|Command $operation, Closure $next): mixed
+        public function handle(Operation $operation, Closure $next): mixed
         {
             $this->order[] = $this->id;
 

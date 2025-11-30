@@ -7,6 +7,7 @@ namespace Pragmatic\Cqrs\Middleware;
 use Closure;
 use Pragmatic\Cqrs\Command;
 use Pragmatic\Cqrs\Contracts\Middleware;
+use Pragmatic\Cqrs\Operation;
 use Pragmatic\Cqrs\Query;
 use Psr\Log\LoggerInterface;
 
@@ -47,7 +48,7 @@ final class LoggingMiddleware implements Middleware
     /**
      * Handle the operation execution with logging.
      */
-    public function handle(Query|Command $operation, Closure $next): mixed
+    public function handle(Operation $operation, Closure $next): mixed
     {
         $operationType = $operation instanceof Query ? 'Query' : 'Command';
         $operationClass = get_class($operation);

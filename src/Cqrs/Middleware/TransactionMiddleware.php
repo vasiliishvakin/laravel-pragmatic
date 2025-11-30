@@ -6,9 +6,8 @@ namespace Pragmatic\Cqrs\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\DB;
-use Pragmatic\Cqrs\Command;
 use Pragmatic\Cqrs\Contracts\Middleware;
-use Pragmatic\Cqrs\Query;
+use Pragmatic\Cqrs\Operation;
 
 /**
  * Database transaction middleware for CQRS commands.
@@ -40,7 +39,7 @@ final class TransactionMiddleware implements Middleware
      *
      * @throws \Throwable
      */
-    public function handle(Query|Command $operation, Closure $next): mixed
+    public function handle(Operation $operation, Closure $next): mixed
     {
         return DB::transaction(function () use ($operation, $next) {
             return $next($operation);

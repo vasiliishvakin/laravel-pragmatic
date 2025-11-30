@@ -6,9 +6,8 @@ namespace Pragmatic\Cqrs\Middleware;
 
 use Closure;
 use Illuminate\Validation\ValidationException;
-use Pragmatic\Cqrs\Command;
 use Pragmatic\Cqrs\Contracts\Middleware;
-use Pragmatic\Cqrs\Query;
+use Pragmatic\Cqrs\Operation;
 
 /**
  * Validation middleware for CQRS operations.
@@ -55,7 +54,7 @@ final class ValidationMiddleware implements Middleware
      *
      * @throws ValidationException
      */
-    public function handle(Query|Command $operation, Closure $next): mixed
+    public function handle(Operation $operation, Closure $next): mixed
     {
         // If the operation has a validate() method, call it
         if (method_exists($operation, 'validate')) {

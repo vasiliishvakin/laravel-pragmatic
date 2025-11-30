@@ -29,11 +29,11 @@ abstract class AbstractBus
     /**
      * Execute an operation through middleware pipeline with automatic dependency injection.
      *
-     * @param  Query|Command  $operation  Operation instance to execute
+     * @param  Operation  $operation  Operation instance to execute
      * @param  string  $configKey  Config key for global middleware
      * @return mixed Operation result (may be transformed by middleware)
      */
-    protected function executeOperation(Query|Command $operation, string $configKey): mixed
+    protected function executeOperation(Operation $operation, string $configKey): mixed
     {
         $middleware = $this->collectMiddleware($operation, $configKey);
 
@@ -46,7 +46,7 @@ abstract class AbstractBus
         return (new Pipeline($this->container))
             ->send($operation)
             ->through($middleware)
-            ->then(fn (Query|Command $operation) => $this->executeWithBootstrap($operation));
+            ->then(fn (Operation $operation) => $this->executeWithBootstrap($operation));
     }
 
     /**
@@ -59,7 +59,7 @@ abstract class AbstractBus
      *
      * @return array<int, class-string|object>
      */
-    private function collectMiddleware(Query|Command $operation, string $configKey): array
+    private function collectMiddleware(Operation $operation, string $configKey): array
     {
         $middleware = array_merge(
             config($configKey, []),
@@ -93,7 +93,7 @@ abstract class AbstractBus
     /**
      * Execute the operation with boot() and execute() phases.
      */
-    private function executeWithBootstrap(Query|Command $operation): mixed
+    private function executeWithBootstrap(Operation $operation): mixed
     {
         // Call boot() for optional dependency injection if not already booted
         if (! $operation->isBooted()) {
