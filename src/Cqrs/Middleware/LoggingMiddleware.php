@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pragmatic\Cqrs\Middleware;
 
 use Closure;
-use Pragmatic\Cqrs\Command;
 use Pragmatic\Cqrs\Contracts\Middleware;
 use Pragmatic\Cqrs\Operation;
 use Pragmatic\Cqrs\Query;

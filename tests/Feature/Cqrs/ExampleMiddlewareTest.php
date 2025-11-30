@@ -124,6 +124,7 @@ test('ValidationMiddleware short-circuits on validation failure', function () {
         public function execute(): mixed
         {
             $this->executed = true;
+
             return null;
         }
     };

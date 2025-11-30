@@ -6,8 +6,6 @@ namespace Pragmatic\Json;
 
 use Illuminate\Contracts\Container\Container;
 use InvalidArgumentException;
-use Pragmatic\Json\JsonDriverContract;
-use Pragmatic\Json\JsonManagerInstance;
 use Pragmatic\Support\FactoryContainer;
 
 final class JsonFactoryContainer extends FactoryContainer

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pragmatic\Alerts;
 
 use Illuminate\Support\Facades\Session;
-use Pragmatic\Alerts\AlertType;
 
 class AlertManager
 {

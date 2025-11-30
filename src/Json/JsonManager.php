@@ -6,8 +6,6 @@ namespace Pragmatic\Json;
 
 use BadMethodCallException;
 use InvalidArgumentException;
-use Pragmatic\Json\JsonDriverContract;
-use Pragmatic\Json\JsonManagerInstance;
 use Pragmatic\Hashing\FastHasher;
 
 final class JsonManager implements JsonDriverContract, JsonManagerInstance

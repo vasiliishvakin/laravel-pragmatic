@@ -8,7 +8,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use InvalidArgumentException;
 use JsonSerializable;
-use Pragmatic\Alerts\AlertType;
 use Stringable;
 
 final class AlertData implements Arrayable, Jsonable, JsonSerializable, Stringable

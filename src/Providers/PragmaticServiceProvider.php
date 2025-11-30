@@ -23,7 +23,6 @@ use Pragmatic\Debug\Contracts\DebugManagerInstance;
 use Pragmatic\Debug\DebugFactoryContainer;
 use Pragmatic\Debug\DebugManager;
 use Pragmatic\Hashing\FastHasher;
-use Pragmatic\Json\JsonDriverContract;
 use Pragmatic\Json\JsonFactoryContainer;
 use Pragmatic\Json\JsonManager;
 use Pragmatic\Json\JsonManagerInstance;

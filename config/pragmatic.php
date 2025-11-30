@@ -12,7 +12,7 @@ return [
     | CQRS Configuration
     |--------------------------------------------------------------------------
     |
-    | Configure global middleware for Query and Command buses.
+    | Configure global middleware for Query, Command, and Action operations.
     | Middleware will be executed in the order they are defined.
     |
     */
@@ -31,6 +31,14 @@ return [
         'command_middleware' => [
             // \Pragmatic\Cqrs\Middleware\EventMiddleware::class,
             // \Pragmatic\Cqrs\Middleware\TransactionMiddleware::class,
+        ],
+
+        /*
+        | Global middleware applied to all actions
+        */
+        'action_middleware' => [
+            // \Pragmatic\Cqrs\Middleware\EventMiddleware::class,
+            // \Pragmatic\Cqrs\Middleware\LoggingMiddleware::class,
         ],
     ],
 
