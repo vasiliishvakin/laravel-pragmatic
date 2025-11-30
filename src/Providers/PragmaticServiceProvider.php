@@ -10,6 +10,8 @@ use Illuminate\Support\ServiceProvider;
 use Pragmatic\Alerts\AlertManager;
 use Pragmatic\Cache\Concerns\CacheMacros;
 use Pragmatic\Cache\Concerns\CacheUtils;
+use Pragmatic\Cqrs\CommandBus;
+use Pragmatic\Cqrs\QueryBus;
 use Pragmatic\Data\DataFactoryService;
 use Pragmatic\Data\DataSerializerService;
 use Pragmatic\Data\Mapping\MapperResolver;
@@ -78,6 +80,10 @@ final class PragmaticServiceProvider extends ServiceProvider
         // DTO Services
         $this->app->singleton(DataFactoryService::class);
         $this->app->singleton(DataSerializerService::class);
+
+        // CQRS Buses
+        $this->app->singleton(QueryBus::class);
+        $this->app->singleton(CommandBus::class);
     }
 
     /**

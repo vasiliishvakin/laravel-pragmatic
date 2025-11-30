@@ -7,6 +7,33 @@ use Pragmatic\Json\Drivers\JsJsonDriver;
 use Pragmatic\Json\Drivers\JsonDriver;
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | CQRS Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure global middleware for Query and Command buses.
+    | Middleware will be executed in the order they are defined.
+    |
+    */
+    'cqrs' => [
+        /*
+        | Global middleware applied to all queries
+        */
+        'query_middleware' => [
+            // \Pragmatic\Cqrs\Middleware\EventMiddleware::class,
+            // \Pragmatic\Cqrs\Middleware\LoggingMiddleware::class,
+        ],
+
+        /*
+        | Global middleware applied to all commands
+        */
+        'command_middleware' => [
+            // \Pragmatic\Cqrs\Middleware\EventMiddleware::class,
+            // \Pragmatic\Cqrs\Middleware\TransactionMiddleware::class,
+        ],
+    ],
+
     'hash' => [
         'driver' => 'fast',
         'algo' => env('HASH_FAST_ALGO', 'xxh3'),
