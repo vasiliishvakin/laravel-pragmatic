@@ -110,7 +110,7 @@ final class EnumHelperService
      */
     private function resolveEnumClass(UnitEnum|string $enum): string
     {
-        $class = is_string($enum) ? $enum : $enum::class;
+        $class = \is_string($enum) ? $enum : $enum::class;
 
         if (! is_a($class, UnitEnum::class, true)) {
             throw new InvalidArgumentException("{$class} is not an enum");

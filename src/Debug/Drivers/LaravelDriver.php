@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Pragmatic\Debug\Drivers;
 
-use Pragmatic\Debug\Contracts\CoreDebugDriver;
+use Pragmatic\Debug\Contracts\DebugDriver;
 
-final class CoreDriver implements CoreDebugDriver
+
+final class LaravelDriver implements DebugDriver
 {
     /**
      * Dump variable(s) and continue execution.

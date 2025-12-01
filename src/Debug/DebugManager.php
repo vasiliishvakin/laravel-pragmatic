@@ -7,77 +7,61 @@ namespace Pragmatic\Debug;
 use BadMethodCallException;
 use InvalidArgumentException;
 use Laravel\Pennant\Feature;
+use Pest\Plugins\Parallel\Handlers\Laravel;
 use Pragmatic\Debug\Contracts\DebugDriver;
 use Pragmatic\Debug\Contracts\DebugManagerInstance;
 use Pragmatic\Debug\Drivers\NullDriver;
+use Pragmatic\Debug\Enums\DebugMode;
 
-final class DebugManager implements DebugDriver, DebugManagerInstance
+final class DebugManager
 {
-    private static ?bool $enabled = null;
+    private array $drivers = [];
 
     public function __construct(
-        private readonly DebugFactoryContainer $factoryContainer,
-        private readonly ?DebugDriver $driver = null,
+        private DebugMode $mode,
+        private DebugFactoryContainer $factory,
+        private ?DebugDriver $defaultDriver = null
     ) {}
 
-    /**
-     * Magic method to forward calls to the driver.
-     */
-    public function __call(string $method, array $args): mixed
-    {
-        $driver = $this->instance()->rawDriver();
 
-        if (! method_exists($driver, $method)) {
-            throw new BadMethodCallException(
-                "Method {$method} does not exist on driver ".get_class($driver)
-            );
-        }
-
-        return $driver->$method(...$args);
-    }
 
     /**
      * Get a debug driver instance.
      */
-    public function driver(?string $name = null): static
+    public function driver(?string $name = null): DebugDriver
     {
-        $name ??= config('debug.default');
+        $name = $name ?? config('debug.default');
 
-        return $this->factoryContainer->get($name);
-    }
-
-    /**
-     * Get the raw debug driver.
-     */
-    public function rawDriver(): DebugDriver
-    {
-        if ($this->driver === null) {
-            throw new InvalidArgumentException('No debug driver has been set.');
+        if (! $this->hasDriver($name)) {
+            throw new InvalidArgumentException("Debug driver [{$name}] is not configured.");
         }
 
-        // Return NullDriver if debugging is disabled
-        if (! $this->isEnabled()) {
-            return new NullDriver;
+        if (isset($this->drivers[$name])) {
+            return $this->drivers[$name];
+        }
+    }
+
+    private function getDriverInstance(string $name): DebugDriver
+    {
+        if ($this)
+
+            $driverClass = config("debug.drivers.{$name}.class");
+
+        if (! class_exists($driverClass)) {
+            throw new InvalidArgumentException("Debug driver class [{$driverClass}] does not exist.");
         }
 
-        return $this->driver;
+        return new $driverClass();
     }
 
-    /**
-     * Check if a driver has been set.
-     */
-    public function hasDriver(): bool
+    private function defaultDriver(): string
     {
-        return $this->driver !== null;
+        $defaultDriver = config('debug.default');
+        throw_unless($defaultDriver, InvalidArgumentException::class, 'No default debug driver configured.');
+        return $defaultDriver;
     }
 
-    /**
-     * Get the current instance or default driver.
-     */
-    public function instance(): static
-    {
-        return $this->hasDriver() ? $this : $this->driver();
-    }
+
 
     /**
      * Check if debugging is enabled.
@@ -109,80 +93,65 @@ final class DebugManager implements DebugDriver, DebugManagerInstance
     /**
      * Enable debugging (sets runtime flag).
      */
-    public function enable(): void
+    public function enable(): self
     {
-        self::$enabled = true;
+        $this->mode = DebugMode::Enabled;
+        return $this;
     }
 
     /**
      * Disable debugging (sets runtime flag).
      */
-    public function disable(): void
+    public function disable(): self
     {
-        self::$enabled = false;
+        $this->mode = DebugMode::Disabled;
+        return $this;
     }
+
+    public function silent(): self {}
 
     /**
      * Reset cached enabled state.
      */
-    public function resetState(): void
+    public function resetMode(): self
     {
-        self::$enabled = null;
-    }
-
-    /**
-     * Shorthand for core driver.
-     */
-    public function core(): static
-    {
-        return $this->driver('core');
-    }
-
-    /**
-     * Shorthand for laradumps driver.
-     */
-    public function ds(): static
-    {
-        return $this->driver('laradumps');
-    }
-
-    /**
-     * Shorthand for log driver.
-     */
-    public function log(?string $level = null): static
-    {
-        $driver = $this->driver('log');
-
-        if ($level !== null && method_exists($driver->rawDriver(), 'level')) {
-            $driver->rawDriver()->level($level);
-        }
-
-        return $driver;
-    }
-
-    /**
-     * Dump variable(s) and continue execution.
-     */
-    public function dump(mixed ...$vars): static
-    {
-        $this->instance()->rawDriver()->dump(...$vars);
-
+        $mode = config('debug.mode');
+        $this->mode = DebugMode::from($mode);
         return $this;
     }
 
-    /**
-     * Dump variable(s) and die (stop execution).
-     */
-    public function dd(mixed ...$vars): never
+    private function autoModeToRealMode(): DebugMode
     {
-        $this->instance()->rawDriver()->dd(...$vars);
+        //some code based on APP_ENV Penent flag or /end request param, in feature, now mock
+        if ($this->isEnabled()) {
+            return DebugMode::Enabled;
+        }
+
+        return DebugMode::Disabled;
     }
 
-    /**
-     * Stop execution without dumping.
-     */
-    public function die(string $message = ''): never
+    private function driverByMode(): DebugDriver
     {
-        $this->instance()->rawDriver()->die($message);
+        $mode = $this->mode;
+
+        if ($mode === DebugMode::Auto) {
+            $mode = $this->autoModeToRealMode();
+        }
+
+        if ($mode === DebugMode::Disabled) {
+            return new NullDriver();
+        }
+
+        return $this->driver();
     }
+
+    public function dump(mixed ...$vars): mixed
+    {
+        if ($this->mode === DebugMode::Disabled) {
+            return null;
+        }
+
+        return $this->driver()->dump(...$vars);
+    }
+
 }
