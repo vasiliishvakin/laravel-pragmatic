@@ -6,7 +6,6 @@ namespace Pragmatic\Debug\Drivers;
 
 use Pragmatic\Debug\Contracts\DebugDriver;
 
-
 final class LaravelDriver implements DebugDriver
 {
     /**
@@ -20,7 +19,7 @@ final class LaravelDriver implements DebugDriver
     /**
      * Dump variable(s) and die (stop execution).
      */
-    public function dd(mixed ...$vars): never
+    public function dd(mixed ...$vars): void
     {
         dd(...$vars);
     }

@@ -4,7 +4,7 @@ namespace Pragmatic\Debug\Drivers;
 
 use Pragmatic\Debug\Contracts\DebugDriver;
 
-final class LogDriver implements DebugDriver
+class LogDriver implements DebugDriver
 {
     /**
      * Dump variable(s) and continue execution.
@@ -21,9 +21,9 @@ final class LogDriver implements DebugDriver
     /**
      * Dump variable(s) and die (stop execution).
      */
-    public function dd(mixed ...$vars): never
+    public function dd(mixed ...$vars): void
     {
         $this->dump(...$vars);
-        die();
+        exit();
     }
 }

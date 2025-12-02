@@ -18,8 +18,8 @@ final class PhpDriver implements DebugDriver
         print_r(...$vars);
     }
 
-    public function die(string|int $status = 0): never
+    public function die(string|int $status = 0): void
     {
-        die($status);
+        exit($status);
     }
 }

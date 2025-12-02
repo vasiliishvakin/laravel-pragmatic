@@ -2,23 +2,41 @@
 
 declare(strict_types=1);
 
-use Modules\Toolbox\Debug\Drivers\CoreDriver;
-use Modules\Toolbox\Debug\Drivers\LaradumpsDriver;
-use Modules\Toolbox\Debug\Drivers\LogDriver;
+use Pragmatic\Debug\Drivers\LaraDumpsDriver;
+use Pragmatic\Debug\Drivers\LaravelDriver;
+use Pragmatic\Debug\Drivers\LogDriver;
+use Pragmatic\Debug\Drivers\PhpDriver;
+use Pragmatic\Debug\Drivers\SilentLogDriver;
 
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | Debug Enabled
+    | Debug Mode
     |--------------------------------------------------------------------------
     |
-    | This option controls whether debugging is enabled globally. When disabled,
-    | all debug operations will be silently suppressed unless the 'force-debug'
-    | Pennant feature is active for the current context.
+    | This option controls the debug mode for your application.
     |
-    | In production (APP_ENV=production), this is automatically set to false
-    | unless explicitly enabled via DEBUG_ENABLED=true environment variable.
+    | Available modes:
+    | - auto: Automatically determine based on Pennant flag, config, and APP_ENV
+    | - enabled: Debugging always enabled
+    | - disabled: Debugging always disabled (returns NullDriver)
+    | - silent: Logging without stopping execution (uses SilentLogDriver)
+    |
+    */
+
+    'mode' => env('DEBUG_MODE', 'auto'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Debug Enabled (for Auto mode)
+    |--------------------------------------------------------------------------
+    |
+    | This option is used when mode is 'auto' to determine if debugging
+    | should be enabled. In production (APP_ENV=production), this is
+    | automatically set to false unless explicitly enabled.
+    |
+    | The 'force-debug' Pennant feature flag can override this setting.
     |
     */
 
@@ -30,11 +48,11 @@ return [
     |--------------------------------------------------------------------------
     |
     | This option controls the default debug driver that will be used when
-    | no specific driver is requested. Available drivers: core, laradumps, log
+    | no specific driver is requested.
     |
     */
 
-    'default' => env('DEBUG_DRIVER', 'core'),
+    'default' => env('DEBUG_DRIVER', 'laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -44,54 +62,34 @@ return [
     | Here you may configure the debug drivers for your application.
     |
     | Available drivers:
-    | - core: Uses Symfony VarDumper for rich variable inspection
-    | - laradumps: Uses LaraDumps for external debugging interface
+    | - laravel: Uses Laravel's dump() and dd() helpers
+    | - php: Uses native PHP var_dump() and print_r()
     | - log: Writes debug output to Laravel logs
+    | - silent-log: Logs without stopping execution (dd() doesn't die)
+    | - laradumps: Uses LaraDumps for external debugging interface
     |
     */
 
     'drivers' => [
 
-        'core' => [
-            'driver' => CoreDriver::class,
-            'options' => [
-                // Maximum depth for nested structures
-                'max_depth' => env('DEBUG_CORE_MAX_DEPTH', 10),
-
-                // Maximum string length before truncation
-                'max_string_length' => env('DEBUG_CORE_MAX_STRING', 1000),
-
-                // Show resource information
-                'show_resources' => env('DEBUG_CORE_SHOW_RESOURCES', true),
-            ],
+        'laravel' => [
+            'driver' => LaravelDriver::class,
         ],
 
-        'laradumps' => [
-            'driver' => LaradumpsDriver::class,
-            'options' => [
-                // LaraDumps screen name for organized output
-                'screen' => env('DEBUG_LARADUMPS_SCREEN', 'Debug'),
-
-                // Auto-clear screen on new dump
-                'auto_clear' => env('DEBUG_LARADUMPS_AUTO_CLEAR', false),
-            ],
+        'php' => [
+            'driver' => PhpDriver::class,
         ],
 
         'log' => [
             'driver' => LogDriver::class,
-            'options' => [
-                // Default log channel
-                'channel' => env('DEBUG_LOG_CHANNEL', config('logging.default')),
+        ],
 
-                // Default log level
-                'level' => env('DEBUG_LOG_LEVEL', 'debug'),
+        'silent-log' => [
+            'driver' => SilentLogDriver::class,
+        ],
 
-                // Include backtrace in log output
-                'backtrace' => env('DEBUG_LOG_BACKTRACE', true),
-
-                // Backtrace depth limit
-                'backtrace_depth' => env('DEBUG_LOG_BACKTRACE_DEPTH', 5),
-            ],
+        'laradumps' => [
+            'driver' => LaraDumpsDriver::class,
         ],
 
     ],

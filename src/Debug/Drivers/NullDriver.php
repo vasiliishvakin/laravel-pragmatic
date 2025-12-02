@@ -8,9 +8,28 @@ use Pragmatic\Debug\Contracts\DebugDriver;
 
 final class NullDriver implements DebugDriver
 {
-    public function __call(string $method, array $args): mixed
+    public function __call(string $method, array $args): self
     {
-        // Do nothing and return null for any method called
+        return $this;
+    }
+
+    public function __get(string $name): null
+    {
         return null;
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        // Do nothing
+    }
+
+    public function dump(mixed ...$vars): mixed
+    {
+        return null;
+    }
+
+    public function dd(mixed ...$vars)
+    {
+        // Do nothing
     }
 }

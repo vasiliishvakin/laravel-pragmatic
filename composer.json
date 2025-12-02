@@ -2,7 +2,13 @@
     "name": "vasiliishvakin/laravel-pragmatic",
     "description": "Laravel Pragmatic Toolkit - Lightweight CQRS, State Machines, and utilities for Laravel",
     "type": "library",
-    "keywords": ["laravel", "cqrs", "state-machine", "pragmatic", "toolkit"],
+    "keywords": [
+        "laravel",
+        "cqrs",
+        "state-machine",
+        "pragmatic",
+        "toolkit"
+    ],
     "license": "Apache-2.0",
     "authors": [
         {
@@ -16,10 +22,14 @@
         "illuminate/contracts": "^12.0"
     },
     "require-dev": {
+        "laradumps/laradumps": "^4.0",
         "laravel/pint": "^1.13",
         "orchestra/testbench": "^10.0",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "suggest": {
+        "laradumps/laradumps": "Enhanced debugging and dumping for Laravel (^4.0)"
     },
     "autoload": {
         "psr-4": {

@@ -16,12 +16,9 @@ use Pragmatic\Data\DataFactoryService;
 use Pragmatic\Data\DataSerializerService;
 use Pragmatic\Data\Mapping\MapperResolver;
 use Pragmatic\Data\Mapping\MapperTransformer;
-use Pragmatic\Debug\Commands\DebugDisableCommand;
-use Pragmatic\Debug\Commands\DebugDriverCommand;
-use Pragmatic\Debug\Commands\DebugEnableCommand;
 use Pragmatic\Debug\Contracts\DebugManagerInstance;
-use Pragmatic\Debug\DebugFactoryContainer;
 use Pragmatic\Debug\DebugManager;
+use Pragmatic\Debug\Enums\DebugMode;
 use Pragmatic\Hashing\FastHasher;
 use Pragmatic\Json\JsonFactoryContainer;
 use Pragmatic\Json\JsonManager;
@@ -55,9 +52,12 @@ final class PragmaticServiceProvider extends ServiceProvider
         $this->app->singleton(JsonManager::class);
 
         // Debug Manager
-        $this->app->singleton(DebugFactoryContainer::class);
         $this->app->bind(DebugManagerInstance::class, DebugManager::class);
-        $this->app->singleton(DebugManager::class);
+        $this->app->singleton(DebugManager::class, function () {
+            $mode = DebugMode::from(config('debug.mode', 'auto'));
+
+            return new DebugManager($mode);
+        });
 
         // Cache Utilities
         $this->app->singleton(CacheUtils::class, fn () => new CacheUtils(
@@ -115,9 +115,6 @@ final class PragmaticServiceProvider extends ServiceProvider
             // Register commands
             $this->commands([
                 \Pragmatic\Console\Commands\PennantFlagCommand::class,
-                DebugEnableCommand::class,
-                DebugDisableCommand::class,
-                DebugDriverCommand::class,
             ]);
         }
 
